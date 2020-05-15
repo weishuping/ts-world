@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" @click="sayHello">切换名称</button>
+        <button type="button" @click="sayHello">test: 切换名称</button>
         {{MyName}}
     </div>
 </template>
