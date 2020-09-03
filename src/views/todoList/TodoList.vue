@@ -18,11 +18,23 @@
             v-for="(todo, i) in todos"
             :key="todo.time.getTime()"
             :todo="todo"
-            @click="complete(i)"/>
+            @click="complete(i)"
+            type="todo"/>
         <div 
             v-show="todos.length <= 0"
             class="default-todo-content">
             暂无待完成事项
+        </div>
+        <div class="title">已完成{{trashCount}}项</div>
+        <!-- todos -->
+        <todo-item
+        v-for="todo in trashes"
+        :key="todo.time.getTime()"
+        type="trash"
+        :todo="todo"/>
+        <!-- default -->
+        <div v-show="trashes.length <= 0" class="default-todo-content">
+            暂无已完成事项
         </div>
     </div>
 </template>
@@ -31,6 +43,7 @@
 import {Component, Vue} from "vue-property-decorator";
 import ITodo from "@/types/ITodo";
 import TodoItem from "./TodoItem.vue";
+import {TodoStoreModule} from '@/store/modules/todo'
 @Component({
     name: 'TodoList',
     components: {
@@ -49,10 +62,24 @@ export default class extends Vue {
         const {length} = this.todos;
         return length > 0 ? `共${length}个` : '';
     }
-    // 将todo设置为完成
-    public complete(index: number) {
-        this.todos.splice(index, 1)
+    // 已完成数量
+    get trashCount() {
+        return TodoStoreModule.trashCount;
     }
+
+    // 已完成
+    get trashes() {
+        return TodoStoreModule.trashes;
+    }
+    // 设置完成
+    public complete(index: number) {
+        const target = this.todos.splice(index, 1);
+        TodoStoreModule.addTrash(target[0]);
+    }
+    // // 将todo设置为完成
+    // public complete(index: number) {
+    //     this.todos.splice(index, 1)
+    // }
     // 保存
     public save() {
         this.todos.push({
