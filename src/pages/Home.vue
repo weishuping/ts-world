@@ -1,17 +1,21 @@
 <template>
   <div class="home">
-    主页内容
-    <good-list />
+    <todo-list />
   </div>
 </template>
 
 <script lang="ts">
-import GoodList from '@/views/main/GoodList.vue'
+import {Component, Vue} from "vue-property-decorator";
 
-export default {
-  name: 'Home',
-   components: {
-    GoodList
-  }
+// import GoodList from '@/views/main/GoodList.vue'
+import TodoList from '@/views/todoList/TodoList.vue'
+@Component({
+    name: 'Home',
+    components: {
+        TodoList
+    }
+})
+export default class extends Vue{
+  
 }
 </script>

@@ -21,7 +21,14 @@ module.exports = {
             // 为测试环境修改配置...
             console.log('test');
         }
-        
+        const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
+        types.forEach(type => {
+            config.module
+            .rule('less')
+            .oneOf(type)
+            .use('less-loader')
+            .tap(options => Object.assign({}, options));
+        })
         config.resolve.alias
             .set('@', resolve('src'))
             .set('api', resolve('src/api'))
